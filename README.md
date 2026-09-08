@@ -1,27 +1,26 @@
 # E-Commerce Data Analysis & Customer Intelligence
 
-An end-to-end data science project analyzing e-commerce transactions to uncover sales trends, customer behavior, profitability patterns, and high-value customer segments.
+An end-to-end data science project analyzing e-commerce transactions to uncover sales trends, customer behavior, profitability patterns, customer segments, and future customer value.
 
 ## Project Overview
 
 ![E-Commerce Analysis Dashboard](E-Commerce%20Data%20Analysis_page.jpg)
 
-
 This project analyzes 51,290 e-commerce transactions to understand business performance and customer purchasing behavior.
 
-The analysis combines exploratory data analysis, customer-level feature engineering, unsupervised learning, and supervised machine learning to generate actionable business insights.
+The analysis combines exploratory data analysis, customer-level feature engineering, RFM-based customer segmentation, and supervised machine learning to generate actionable business insights.
 
-### Machine Learning Results
+## Machine Learning Results
 
-#### Customer Segmentation
+### Customer Segmentation
 
 ![Customer Segmentation](images/customer_segmentation.png)
 
-#### Random Forest Confusion Matrix
+### Random Forest Confusion Matrix
 
 ![Random Forest Confusion Matrix](images/random_forest_confusion_matrix.png)
 
-#### Feature Importance
+### Feature Importance
 
 ![Random Forest Feature Importance](images/random_forest_feature_importance.png)
 
@@ -30,22 +29,29 @@ The analysis combines exploratory data analysis, customer-level feature engineer
 - Analyze overall sales, profit, and quantity performance.
 - Identify trends across product categories and time.
 - Analyze customer purchasing behavior and profitability.
-- Segment customers using K-Means clustering.
-- Evaluate cluster quality using the Silhouette Score.
-- Classify customers into high-value and low-value groups using Random Forest.
-- Identify the most important behavioral factors associated with high-value customers.
+- Perform RFM-based customer segmentation using K-Means.
+- Evaluate clustering quality using the Silhouette Score.
+- Predict future customer value using historical purchasing behavior.
+- Evaluate future customer value predictions using F1 Score and ROC-AUC.
+- Identify important historical behavioral factors associated with future customer value.
 - Translate analytical results into business recommendations.
 
 ## Dataset
 
-The dataset contains:
+The project uses an e-commerce transaction dataset containing:
 
-- 51,290 transactions
-- 1,590 unique customers
-- 10,292 unique products
-- 3 product categories
-- 13 regions
+- **51,290 transactions**
+- **1,590 unique customers**
+- **10,292 unique products**
+- **3 product categories**
+- **13 regions**
 - Sales, profit, quantity, discount, shipping cost, and order information
+
+### Dataset Source
+
+The dataset is included in the repository as `ECOM DATA.xlsx`.
+
+It was inherited from the original open-source e-commerce analysis project and is used here as the underlying dataset for an independent extension focused on customer analytics and machine learning.
 
 ## Technologies Used
 
@@ -56,89 +62,127 @@ The dataset contains:
 - Scikit-learn
 - Jupyter Notebook
 - Excel
+- Power BI
 
 ## Analysis Workflow
 
 ### 1. Data Preparation
 
-- Loaded and inspected the dataset
-- Checked missing values
-- Checked duplicate records
-- Converted date columns
-- Prepared customer-level analytical features
+- Loaded and inspected the dataset.
+- Checked missing values.
+- Checked duplicate records.
+- Converted date columns to datetime format.
+- Prepared customer-level analytical features.
 
 ### 2. Exploratory Data Analysis
 
 Analyzed:
 
-- Overall sales and profit
-- Sales and profit by category
-- Monthly sales and profit trends
-- Top-performing products
-- Customer sales and profitability
-- Order frequency and purchase quantity
+- Overall sales and profit.
+- Sales and profit by category.
+- Monthly sales and profit trends.
+- Top-performing products.
+- Customer sales and profitability.
+- Order frequency and purchase quantity.
 
-### 3. Customer Segmentation
+### 3. RFM Customer Segmentation
 
-K-Means clustering was applied using:
+Customer behavior from **2011–2013** was used to create RFM-style features:
 
-- Total Sales
-- Total Profit
-- Total Quantity
-- Number of Orders
+- **Recency:** Days since the customer's last purchase.
+- **Frequency:** Number of orders placed.
+- **Monetary:** Historical customer sales.
 
-The best clustering configuration was **K = 2**, with a **Silhouette Score of 0.632**.
+K-Means clustering was evaluated for K=2 through K=6 using the Silhouette Score.
 
-The resulting segments were interpreted as:
+The best configuration was:
 
-- High-Value Customers
-- Low-Value Customers
+- **K = 3**
+- **Silhouette Score = 0.5366**
 
-### 4. High-Value Customer Classification
+The resulting segments were:
 
-A Random Forest classifier was developed to classify customers as high-value or low-value.
+| Segment | Customers | Behavioral Profile |
+|---|---:|---|
+| High-Value Loyal | 726 | Recent, frequent purchases and high spending |
+| Mid-Value / Developing | 626 | Moderate purchase frequency and spending |
+| Inactive / At-Risk | 144 | Low purchase frequency and long time since last purchase |
 
-The target was defined using the median customer sales value.
+### 4. Future Customer Value Prediction
 
-To avoid data leakage, `Total_Sales` was excluded from the model features.
+A Random Forest classifier was developed to predict whether a customer would become high-value in the future based on historical purchasing behavior.
 
-Features used:
+To avoid same-period target leakage, customer behavior from **2011–2013** was used as the model input, while customer sales during **2014** were used to define the future target.
 
-- Total Profit
-- Total Quantity
-- Number of Orders
+The target was defined using the **median customer sales in 2014 ($1,976.07)**. Customers with sales at or above this value were classified as high-value.
 
-### Model Performance
+Historical features used:
 
-The Random Forest classifier achieved:
+- Past Sales
+- Past Profit
+- Past Quantity
+- Past Orders
+- Recency Days
 
-- **Accuracy:** 96.86%
-- **Precision:** 95.71%
-- **Recall:** 98.11%
-- **F1 Score:** 96.89%
+The analysis included **1,496 customers** who appeared in both the historical and future periods.
 
-To evaluate model stability, stratified 5-fold cross-validation was also
-performed.
+### 5. Model Performance
 
-- **Mean Cross-Validation F1:** 96.67%
-- **Standard Deviation:** 0.31%
+The Random Forest model achieved the following results on a held-out 2014 test set:
 
-The low standard deviation indicates consistent performance across
-different validation folds.
+- **Accuracy:** 86.33%
+- **Precision:** 86.58%
+- **Recall:** 86.00%
+- **F1 Score:** 86.29%
+- **ROC-AUC:** 0.8669
+
+Stratified 5-fold cross-validation was performed on the training data only:
+
+- **Mean Cross-Validation F1:** 85.50%
+- **Standard Deviation:** 2.40%
+
+The similar cross-validation and held-out test performance indicates reasonable generalization to unseen customer outcomes.
+
+### 6. Feature Importance
+
+The most influential historical features were:
+
+1. **Past Quantity:** 33.71%
+2. **Past Orders:** 23.22%
+3. **Past Sales:** 19.83%
+4. **Past Profit:** 13.68%
+5. **Recency Days:** 9.56%
+
+The results suggest that historical purchase volume and order frequency are important signals for identifying customers who are likely to generate higher sales in the future.
+
+## Business Impact of Prediction Errors
+
+Prediction errors can have different business consequences:
+
+- **False Negative:** A customer who becomes high-value in 2014 is predicted as low-value, potentially causing the business to miss retention or loyalty opportunities.
+- **False Positive:** A customer who does not become high-value is predicted as high-value, potentially allocating marketing resources to a lower-value customer.
+
+For customer retention campaigns, false negatives may be particularly important because failing to identify a valuable customer can result in a missed engagement opportunity.
+
+The appropriate prediction threshold would ultimately depend on the relative business cost of false positives and false negatives.
+
 ## Key Business Insights
 
 - Technology generated the highest overall sales and profit among the three product categories.
 - Customer purchasing behavior varies significantly across the customer base.
-- High-value customers have substantially higher average sales, profit, purchase quantity, and order frequency.
-- Purchase quantity and order frequency are important indicators of customer value.
-- Customer segmentation can support targeted marketing and retention strategies.
+- RFM analysis identified distinct groups based on recency, purchase frequency, and historical spending.
+- High-Value Loyal customers showed substantially higher purchase frequency and spending than other segments.
+- Inactive / At-Risk customers had significantly longer periods since their last purchase.
+- Historical purchase quantity and order frequency were the strongest features in the future customer value model.
+- Customer segmentation and future value prediction can support targeted marketing and retention strategies.
 
 ## Business Recommendations
 
-- Provide loyalty rewards and personalized offers to high-value customers.
-- Use targeted promotions to increase engagement among low-value customers.
-- Focus on increasing purchase frequency and basket size.
-- Use customer segmentation to support personalized marketing and retention decisions.
+- Provide loyalty rewards and personalized offers to High-Value Loyal customers.
+- Use targeted re-engagement campaigns for Inactive / At-Risk customers.
+- Encourage Mid-Value / Developing customers to increase purchase frequency and basket size.
+- Prioritize customers predicted to become high-value for retention and personalized marketing initiatives.
+- Use customer analytics to allocate marketing resources more efficiently.
 
 ## Project Structure
 
@@ -148,54 +192,14 @@ E-Commerce-Data-Science/
 ├── analysis/
 │   └── ecommerce_analysis.ipynb
 │
+├── images/
+│   ├── customer_segmentation.png
+│   ├── random_forest_confusion_matrix.png
+│   └── random_forest_feature_importance.png
+│
 ├── Data & Resources/
 │   └── ECOM DATA.xlsx
 │
 ├── README.md
 ├── requirements.txt
 ├── .gitignore
-└── LICENSE
-```
-
-## How to Run
-
-### 1. Clone the repository
-
-```bash
-git clone https://github.com/shaurya3000/E-Commerce-Data-Science.git
-cd E-Commerce-Data-Science
-```
-
-### 2. Install required Python packages
-
-```bash
-pip install -r requirements.txt
-```
-
-### 3. Launch Jupyter Notebook
-
-```bash
-jupyter notebook
-```
-
-### 4. Open the notebook
-
-Open:
-
-```text
-analysis/ecommerce_analysis.ipynb
-```
-
-Run the notebook cells from top to bottom.
-
-### 5. Dataset
-
-The analysis uses:
-
-```text
-Data & Resources/ECOM DATA.xlsx
-```
-
-## License and Attribution
-
-This project is an independent extension of an open-source e-commerce data analysis project. The original project is licensed under GNU GPL v3.0, and the original license is retained in this repository.
