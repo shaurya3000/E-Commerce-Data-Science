@@ -191,12 +191,12 @@ E-Commerce-Data-Science/
 ├── analysis/
 │   └── ecommerce_analysis.ipynb
 │
-├── ├── images/
+├─ images/
 │   ├── rfm_segmentation.png
 │   ├── future_value_confusion_matrix.png
 │   └── future_value_feature_importance.png
 ├── Data & Resources/
-│   └── ECOM DATA.xlsx
+│   └── ECOMM DATA.xlsx
 │
 ├── README.md
 ├── requirements.txt
