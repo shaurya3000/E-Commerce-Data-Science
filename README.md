@@ -12,18 +12,17 @@ The analysis combines exploratory data analysis, customer-level feature engineer
 
 ## Machine Learning Results
 
-### Customer Segmentation
+### RFM Customer Segmentation
 
-![Customer Segmentation](images/customer_segmentation.png)
+![RFM Customer Segmentation](images/rfm_segmentation.png)
 
-### Random Forest Confusion Matrix
+### Future Customer Value - Confusion Matrix
 
-![Random Forest Confusion Matrix](images/random_forest_confusion_matrix.png)
+![Future Customer Value Confusion Matrix](images/future_value_confusion_matrix.png)
 
-### Feature Importance
+### Future Customer Value - Feature Importance
 
-![Random Forest Feature Importance](images/random_forest_feature_importance.png)
-
+![Future Customer Value Feature Importance](images/future_value_feature_importance.png)
 ## Objectives
 
 - Analyze overall sales, profit, and quantity performance.
@@ -49,7 +48,7 @@ The project uses an e-commerce transaction dataset containing:
 
 ### Dataset Source
 
-The dataset is included in the repository as `ECOM DATA.xlsx`.
+The dataset is included in the repository as `ECOMM DATA.xlsx`.
 
 It was inherited from the original open-source e-commerce analysis project and is used here as the underlying dataset for an independent extension focused on customer analytics and machine learning.
 
@@ -192,11 +191,10 @@ E-Commerce-Data-Science/
 ├── analysis/
 │   └── ecommerce_analysis.ipynb
 │
-├── images/
-│   ├── customer_segmentation.png
-│   ├── random_forest_confusion_matrix.png
-│   └── random_forest_feature_importance.png
-│
+├── ├── images/
+│   ├── rfm_segmentation.png
+│   ├── future_value_confusion_matrix.png
+│   └── future_value_feature_importance.png
 ├── Data & Resources/
 │   └── ECOM DATA.xlsx
 │
