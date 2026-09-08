@@ -96,16 +96,21 @@ Features used:
 
 ### Model Performance
 
-The Random Forest classifier achieved **95.86% accuracy** on the held-out test set.
+The Random Forest classifier achieved:
 
-Feature importance:
+- **Accuracy:** 96.86%
+- **Precision:** 95.71%
+- **Recall:** 98.11%
+- **F1 Score:** 96.89%
 
-1. Total Quantity — 0.412
-2. Number of Orders — 0.370
-3. Total Profit — 0.218
+To evaluate model stability, stratified 5-fold cross-validation was also
+performed.
 
-This indicates that purchase volume and order frequency were stronger indicators of high-value customers than profit alone in this model.
+- **Mean Cross-Validation F1:** 96.67%
+- **Standard Deviation:** 0.31%
 
+The low standard deviation indicates consistent performance across
+different validation folds.
 ## Key Business Insights
 
 - Technology generated the highest overall sales and profit among the three product categories.
@@ -180,4 +185,3 @@ Data & Resources/ECOM DATA.xlsx
 ## License and Attribution
 
 This project is an independent extension of an open-source e-commerce data analysis project. The original project is licensed under GNU GPL v3.0, and the original license is retained in this repository.
-
