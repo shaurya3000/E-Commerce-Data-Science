@@ -11,6 +11,20 @@ This project analyzes 51,290 e-commerce transactions to understand business perf
 
 The analysis combines exploratory data analysis, customer-level feature engineering, unsupervised learning, and supervised machine learning to generate actionable business insights.
 
+### Machine Learning Results
+
+#### Customer Segmentation
+
+![Customer Segmentation](images/customer_segmentation.png)
+
+#### Random Forest Confusion Matrix
+
+![Random Forest Confusion Matrix](images/random_forest_confusion_matrix.png)
+
+#### Feature Importance
+
+![Random Forest Feature Importance](images/random_forest_feature_importance.png)
+
 ## Objectives
 
 - Analyze overall sales, profit, and quantity performance.
