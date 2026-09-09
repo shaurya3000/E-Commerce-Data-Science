@@ -4,8 +4,6 @@ An end-to-end data science project analyzing e-commerce transactions to uncover 
 
 ## Project Overview
 
-![E-Commerce Analysis Dashboard](E-Commerce%20Data%20Analysis_page.jpg)
-
 This project analyzes 51,290 e-commerce transactions to understand business performance and customer purchasing behavior.
 
 The analysis combines exploratory data analysis, customer-level feature engineering, RFM-based customer segmentation, supervised machine learning, and sales forecasting to generate actionable business insights.
@@ -38,7 +36,7 @@ The project uses an e-commerce transaction dataset containing:
 
 The dataset is included in the repository as `ECOMM DATA.xlsx`.
 
-It was inherited from the original open-source e-commerce analysis project and is used here as the underlying dataset for an independent extension focused on customer analytics and machine learning.
+The dataset originates from an open-source e-commerce analysis project and is used here for the customer analytics, machine learning, and forecasting extensions developed in this repository.
 
 ## Technologies Used
 
@@ -49,7 +47,6 @@ It was inherited from the original open-source e-commerce analysis project and i
 - Scikit-learn
 - Jupyter Notebook
 - Excel
-- Power BI
 
 ## Analysis Workflow
 
@@ -255,7 +252,6 @@ E-Commerce-Data-Science/
 ├── Data & Resources/
 │   └── ECOMM DATA.xlsx
 │
-├── E-Commerce Data Analysis_page.jpg
 ├── sales_forecast.png
 ├── README.md
 ├── requirements.txt
