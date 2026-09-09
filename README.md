@@ -23,6 +23,7 @@ The analysis combines exploratory data analysis, customer-level feature engineer
 ### Future Customer Value - Feature Importance
 
 ![Future Customer Value Feature Importance](images/future_value_feature_importance.png)
+
 ## Objectives
 
 - Analyze overall sales, profit, and quantity performance.
@@ -84,6 +85,8 @@ Analyzed:
 - Customer sales and profitability.
 - Order frequency and purchase quantity.
 
+Order-level metrics such as Average Order Value and Average Profit per Order were calculated after aggregating transaction lines by `Order ID`.
+
 ### 3. RFM Customer Segmentation
 
 Customer behavior from **2011–2013** was used to create RFM-style features:
@@ -91,6 +94,8 @@ Customer behavior from **2011–2013** was used to create RFM-style features:
 - **Recency:** Days since the customer's last purchase.
 - **Frequency:** Number of orders placed.
 - **Monetary:** Historical customer sales.
+
+The features were standardized before applying K-Means clustering.
 
 K-Means clustering was evaluated for K=2 through K=6 using the Silhouette Score.
 
@@ -106,6 +111,8 @@ The resulting segments were:
 | High-Value Loyal | 726 | Recent, frequent purchases and high spending |
 | Mid-Value / Developing | 626 | Moderate purchase frequency and spending |
 | Inactive / At-Risk | 144 | Low purchase frequency and long time since last purchase |
+
+The segment labels are assigned based on the actual behavioral characteristics of each cluster rather than relying on arbitrary K-Means cluster IDs.
 
 ### 4. Future Customer Value Prediction
 
@@ -127,13 +134,15 @@ The analysis included **1,496 customers** who appeared in both the historical an
 
 ### 5. Model Performance
 
-The Random Forest model achieved the following results on a held-out 2014 test set:
+The Random Forest model was evaluated on a held-out 2014 test set.
 
-- **Accuracy:** 86.33%
-- **Precision:** 86.58%
-- **Recall:** 86.00%
-- **F1 Score:** 86.29%
-- **ROC-AUC:** 0.8669
+| Metric | Result |
+|---|---:|
+| Accuracy | **86.33%** |
+| Precision | **86.58%** |
+| Recall | **86.00%** |
+| F1 Score | **86.29%** |
+| ROC-AUC | **0.8669** |
 
 Stratified 5-fold cross-validation was performed on the training data only:
 
@@ -183,6 +192,12 @@ The appropriate prediction threshold would ultimately depend on the relative bus
 - Prioritize customers predicted to become high-value for retention and personalized marketing initiatives.
 - Use customer analytics to allocate marketing resources more efficiently.
 
+## Modeling Limitation
+
+The future customer value model is evaluated among customers who appear in both the historical and future periods.
+
+Therefore, the model predicts **future customer value among returning customers** rather than predicting whether a customer will return in the first place.
+
 ## Project Structure
 
 ```text
@@ -191,13 +206,14 @@ E-Commerce-Data-Science/
 ├── analysis/
 │   └── ecommerce_analysis.ipynb
 │
-├─ images/
+├── images/
 │   ├── rfm_segmentation.png
 │   ├── future_value_confusion_matrix.png
 │   └── future_value_feature_importance.png
+│
 ├── Data & Resources/
 │   └── ECOMM DATA.xlsx
 │
 ├── README.md
 ├── requirements.txt
-├── .gitignore
+└── .gitignore
